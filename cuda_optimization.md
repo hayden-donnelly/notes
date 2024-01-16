@@ -133,7 +133,7 @@ I2: MPY R2,R0,R1        // Multiply R0 and R1, and store the result in R2
 ## Non-Caching Load Revisited
 - Non-caching loads from gmem can improve bus utilization in certain cases because we don't have to worry about utilizing 128 byte cache lines, and instead only need to be concerned with using 32 byte segments.
 
-# GMEM Optimization Guidelines
+## GMEM Optimization Guidelines
 - Strive for perfect coalescing, for example by aliging starting addresses to segment boundaries and programming warps to access contiguous regions in memory.
 - Have enough concurrent memory accesses to saturate the bus, for example by launching enough threads and processing several elements per thread.
 - Make use of all the caches (L1 and L2 are not explicitly user managed, but there other caches that are, i.e. constant cache and read-only cache).
