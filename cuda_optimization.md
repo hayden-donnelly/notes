@@ -93,7 +93,7 @@ I2: MPY R2,R0,R1        // Multiply R0 and R1, and store the result in R2
 - Registers are generally managed by the compiler.
 - Registers are FAST.
 - Shared memory is accessible by threads in the same threadblock.
-- L1 cache retains recently used data so that it can be accessed quickly if it is need again.
+- L1 cache retains recently used data so that it can be accessed quickly if it is needed again.
 - L1 cache and shared memory have very low latency because they are both on the GPU chip.
 - L2 cache is a device wide resource, all accesses to global memory go through L2, this includes copes to/from the host.
 - Global memory is accessible by all threads as well as by the host.
