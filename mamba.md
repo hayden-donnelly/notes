@@ -192,8 +192,8 @@ be input-dependent.
 x = input(shape=(B, L, D))
 A = param(shape=(D, N)) # Structured N x N matrix.
 B = param(shape=(D, N))
-c = param(shape=(D, N))
-delta = param(shape=(D))
+C = param(shape=(D, N))
+delta = tau_delta(param(shape=(D)))
 A_bar, B_bar = discretize(delta, A, B) # shape=(D, N)
 y = SSM(A_bar, B_bar, C)(x)
 return y
@@ -202,9 +202,9 @@ return y
 ```python
 x = input(shape=(B, L, D))
 A = param(shape=(D, N))
-B = S_B(shape=(B, L, N))(x)
-C = S_C(shape=(B, L, N))(x)
-delta = param(shape=(B, L, D)) + S_delta(shape=(B, L, D))(x)
+B = s_B(shape=(B, L, N))(x)
+C = s_C(shape=(B, L, N))(x)
+delta = tau_delta(param(shape=(B, L, D)) + s_delta(shape=(B, L, D))(x))
 A_bar, B_bar = discretize(delta, A, B) # shape=(B, L, D, N)
 y = SSM(A_bar, B_bar, C)(x)
 return y
@@ -213,3 +213,7 @@ return y
 parameters $\Delta$, $B$, and $C$ functions of the input, along with the associated changes to tenor shapes.
 - Importantly these parameters now have a length dimension $L$ which means that the model has changed from
 time-invariant to time-varying.
+- The authors specifically choose $s_{B}(x) = \text{Linear}_{N}(x)$, $s_{C} = \text{Linear}_{N}$, 
+s_{\Delta}(x) = \text{Broadcast}_{D}(\text{Linear}_{1}(x))$, and $\tau_{\Delta} = \text{softplus}$, 
+where \text{Linear}_{d} is a parameterized projection to dimension $d$.
+- The choice of $s_{\Delta}$ and $\tau_{\Delta}$ is due to a connection to RNN gating mechanisms.
