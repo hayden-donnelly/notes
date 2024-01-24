@@ -213,7 +213,17 @@ return y
 parameters $\Delta$, $B$, and $C$ functions of the input, along with the associated changes to tenor shapes.
 - Importantly these parameters now have a length dimension $L$ which means that the model has changed from
 time-invariant to time-varying.
-- The authors specifically choose $s_{B}(x) = \\text{Linear}_{N}(x)$, $s_{C} = \\text{Linear}_{N}$, 
+- The authors specifically choose $s_{B}(x) = \text{Linear}_{N}(x)$, $s_{C} = \text{Linear}_{N}$, 
 s_{\Delta}(x) = \text{Broadcast}_{D}(\text{Linear}_{1}(x))$, and $\tau_{\Delta} = \\text{softplus}$, 
 where \text{Linear}_{d} is a parameterized projection to dimension $d$.
+```math
+$$
+\begin{align}
+s_{B}(x) &= \text{Linear}_{N}(x) \notag\\
+s_{C} &= \text{Linear}_{N} \notag\\
+s_{\Delta}(x) &= \text{Broadcast}_{D}(\text{Linear}_{1}(x)) \notag\\
+\tau_{\Delta} &= \\text{softplus}$ \notag\\ 
+\end{align}
+$$
+```
 - The choice of $s_{\Delta}$ and $\tau_{\Delta}$ is due to a connection to RNN gating mechanisms.
