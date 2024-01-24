@@ -154,3 +154,62 @@ convolution.
 parallelizable computation path, using a variant of multi-head attention (MHA) instead of convolutions.
 - RWKV is an RNN designed for language modelling based on another linear attention approximation.
 Its main "WKV" mechanism involves LTI recurrences and can be viewed as the ratio of two SSMs.
+
+## Selective State Space Models
+- Time-varying SSMs cannot use convolutions, this presents a technicall challenge of how to compute them
+efficiently.
+- The authors overcome this with a hardware-aware algorithm that exploits the memory hierarchy on modern
+hardware.
+
+### Motivation: Selection as a Means of Compression
+- The authors argue that a fundamental problem of sequence modeling is compressing context into a smaller 
+state.
+- The tradeoffs of popular sequence models can be viewed from this point of view.
+- Attention is both effective and inefficient because it explicitly does not compress context at all.
+- Storing the entire context (i.e. the KV cache) directly causees the slow linear-time inference
+and quadratic-tim training of transforms.
+- On the other hand, recurrent models are efficient because they have a finite state, but their
+effectiveness is limited by how well this state had compressed the context.
+- To understand this principle, the authors focus on two synthetic tasks:
+    - The Selective Copying task which requires content-aware reasoning to be able to memorize the relevant
+    tokens and filter out the irrelevant ones.
+    - The Induction Heads task which requires context-aware reasoning to know when to produce the correct
+    output in the appropriate context.
+- These tasks reveal the failure mode of LTI models.
+- From the recurrent view, their constant dynamics cannot let them select the correct information from their
+context, or affect the hidden state passed along the sequence in an input-dependent way.
+- From the convolutional view, convolutions have difficulty with the Selective Copying task because the
+spacing between inputs-to-otuputs is varying and cannot be modeled by static convolution kernels.
+- The efficiency vs effectiveness tradeoff: efficient models must have a small state, while effective models
+must have a state that contains all the necessary information from the context.
+
+## Improving SSMs with Selection
+- One method of incorporating a selectino mechanism into models is by letting their parameters that affect
+interactions along the sequence (e.g. the recurrent dunamics of an RNN or the convolution kernel of a CNN)
+be input-dependent.
+- Algorithm 1, SSM (S4):
+```python
+x = input(shape=(B, L, D))
+A = param(shape=(D, N)) # Structured N x N matrix.
+B = param(shape=(D, N))
+c = param(shape=(D, N))
+delta = param(shape=(D))
+A_bar, B_bar = discretize(delta, A, B) # shape=(D, N)
+y = SSM(A_bar, B_bar, C)(x)
+return y
+```
+- Algorithm 2, SSM + Selection (S6):
+```python
+x = input(shape=(B, L, D))
+A = param(shape=(D, N))
+B = S_B(shape=(B, L, N))(x)
+C = S_C(shape=(B, L, N))(x)
+delta = param(shape=(B, L, D)) + S_delta(shape=(B, L, D))(x)
+A_bar, B_bar = discretize(delta, A, B) # shape=(B, L, D, N)
+y = SSM(A_bar, B_bar, C)(x)
+return y
+```
+- Algorithms 1 and 2 illustrate the main selection mechanism for Mamba, the main difference is making 
+parameters $\Delta$, $B$, and $C$ functions of the input, along with the associated changes to tenor shapes.
+- Importantly these parameters now have a length dimension $L$ which means that the model has changed from
+time-invariant to time-varying.
