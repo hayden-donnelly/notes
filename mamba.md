@@ -79,7 +79,7 @@ $$
 h^\prime &= Ah(t) + Bx(t) \tag{1a}\\ 
 h_t &= \bar{A}h_{t-1} + \bar{B}x_t \tag{2a}\\ 
 \bar{K} &= (C\bar{B}, C\bar{AB}, ... , C\bar{A}^k\bar{B}, ...) \tag{3a}\\
-y(t) &= Ch(t) \text{1b}\\ 
+y(t) &= Ch(t) \tag{1b}\\ 
 y_t &= Ch_t \tag{2b}\\
 y &= x * \bar{K} \tag{3b}\\
 \end{align}
