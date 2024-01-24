@@ -217,3 +217,33 @@ time-invariant to time-varying.
 $`s_{\Delta}(x) = \text{Broadcast}_{D}(\text{Linear}_{1}(x))`$, and $`\tau_{\Delta} = \text{softplus}`$, 
 where $`\text{Linear}_{d}`$ is a parameterized projection to dimension $d$.
 - The choice of $s_{\Delta}$ and $\tau_{\Delta}$ is due to a connection to RNN gating mechanisms.
+
+### Efficient Implementation of Selective SSMs
+- The main recurrent computation uses $O(BLDN)$ FLOPs while the convolutional computation uses 
+$O(BLD\log{L})$ FLOPs, and the former has a lower constant factor. Thus for long sequences and not-to-large
+state dimension N, the recurrent mode can actually use fewer FLOPs.
+- The two challenges are the sequential nature of recurrence, and the large memory usage. To address the
+latter, just like the convolutional mode, we can attempt to not actually materialize the full state $h$.
+- The main idea is to leverage properties of modern accelerators to materialize the state $h$ only in more
+efficient levels of the memory hierarchy.
+- Most operations (except matrix multiplication) are bounded by memory bandwidth, including the authors'
+scan operation.
+- The authors use kernel fusion to reduce the amount of memory IOs leading to a significant speedup
+compared to a standard selective scan implementation.
+- Instead of preparing the scan input $(\bar{A}, \bar{B})$ of size $(B, L, D, N)$ in GPU HBM, the authors
+load the SSM parameters $(\Delta, A, B, C)$ directly from slow HBM to fast SRAM, perform the discretization
+and recurrence in SRAM, and then write the final outputs of size $(B, L, D)$ back to HBM.
+- It is also necessary to avoid saving the intermediate states, which are necessary for backpropagation.
+- The authors use recomputation to reduce the memory requirements, meaning the intermediate states are
+recomputed in the backward pass instead of stored. As a result, the fused selective scan layer has the
+same memory requirments as an optimzied transformer implementation with FlashAttention.
+
+### The Mamba Block
+- Input is split into a main and a residual branch.
+- Both branches are linearly projected into a higher dimensional space.
+- The main branch goes through a convolutional layer, normalization layer, and then the SSM.
+- The residual branch goes through a normalization layer and is then added back to the main branch
+after the main branch has been run through the SSM.
+- Finally a non-linearity is applied to the main branch and it is linearly projected to a lower
+dimensional space.
+
