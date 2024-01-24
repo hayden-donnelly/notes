@@ -215,5 +215,5 @@ parameters $\Delta$, $B$, and $C$ functions of the input, along with the associa
 time-invariant to time-varying.
 - The authors specifically choose $`s_{B}(x) = \text{Linear}_{N}(x)`$, $`s_{C} = \text{Linear}_{N}`$, 
 $`s_{\Delta}(x) = \text{Broadcast}_{D}(\text{Linear}_{1}(x))`$, and $`\tau_{\Delta} = \text{softplus}`$, 
-where \text{Linear}_{d} is a parameterized projection to dimension $d$.
+where $`\text{Linear}_{d}`$ is a parameterized projection to dimension $d$.
 - The choice of $s_{\Delta}$ and $\tau_{\Delta}$ is due to a connection to RNN gating mechanisms.
