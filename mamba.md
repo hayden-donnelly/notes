@@ -69,5 +69,5 @@ modelling.
 - Structured state space sequence models (S4) are a recent class of sequence models that are broadly related
 to RNNs and CNNs, and classical state space models.
 - They are inspired by a particular continuous system that maps a 1-dimensional function or sequence 
-$ x(t) \in \mathbb{R} \rightarrow y(t) \in \mathbb{R} $ through an implict latent state 
+$x(t)\in\mathbb{R}\rightarrowy(t)\in\mathbb{R}$ through an implict latent state 
 $ h(t) \in \mathbb{R}^N $.
