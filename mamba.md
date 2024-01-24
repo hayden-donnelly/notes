@@ -70,3 +70,16 @@ modelling.
 to RNNs and CNNs, and classical state space models.
 - They are inspired by a particular continuous system that maps a 1-dimensional function or sequence 
 $x(t)\in\mathbb{R}\rightarrow(t)\in\mathbb{R}$ through an implict latent state $h(t)\in\mathbb{R}^N$.
+- Concretely, S4 models are defined with four parameters $(\Delta, A, B, C)$, which define a 
+sequence-to-sequence transformation in two stages.
+
+```math
+$$
+h^\prime =& Ah(t) + Bx(t) &\text{1a} 
+h_t = &\bar{A}h_{t-1} + \bar{B}x_t &\text(2a) 
+\bar{K} =& (C\bar{B}, C\bar{AB}, ... , C\bar{A}^k\bar{B}, ...) &\text(3a) \notag\\
+y(t) =& Ch(t) &\text{1b} 
+y_t =& Ch_t &\text{2b}
+y =& x * \bar{K} &\text{3b}
+$$
+```
