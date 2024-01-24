@@ -85,3 +85,23 @@ y &= x * \bar{K} \tag{3b}\\
 \end{align}
 $$
 ```
+
+### Discretization
+- The first stage transforms the "continuous parameters" $(\Delta, A, B)$ to "discrete parameters" 
+$(\bar{A}, \bar{B})$ through fixed formulas.
+- These are $\bar{A} = f_{A}(\Delta, A) and \bar{A} = f_{B}(\exp(\Delta A) - I) \cdot \Delta B$.
+- The pair $(f_{A}, f_{B})$ is called a discretization rule.
+- Various rules can be used such as the zero-order hold (ZOH) defined in equation 4.
+
+```math
+$$
+\begin{align}
+\bar{A} &= \exp(\Delta A) \tag{4a}\\
+\bar{B} &= (\Delta A)^{-1}\exp(\Delta A) - I) \cdot \Delta B \tag{4b}\\
+\end{align}
+$$
+```
+
+- Discretization has deep connections to continuoous-time systems which can give them additional properties
+such as resolution invariance and automatic normalization.
+- It also has connections to the gating mechanisms of RNNs.
