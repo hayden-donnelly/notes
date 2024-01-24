@@ -113,7 +113,7 @@ into recurrent mode for efficient autoregressive inference.
 
 ### Linear Time Invariance (LTI)
 - An important property of equations 1-3 is that the model's dynamics are constant through time.
-- This means that $(\Delta, A, B, C)$ and consequently $(\bar{A}, \bar{B)$ are fixed for all time-steps.
+- This means that $(\Delta, A, B, C)$ and consequently $(\bar{A}, \bar{B})$ are fixed for all time-steps.
 - This is called linear time invariance (LTI).
 - Informally LTI SSMs can be thought of as equivalent to any linear recurrence (2a) or convolution (3b).
 - LTI is used as an umbrella term for these classes of models.
