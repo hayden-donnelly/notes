@@ -105,3 +105,52 @@ $$
 - Discretization has deep connections to continuoous-time systems which can give them additional properties
 such as resolution invariance and automatic normalization.
 - It also has connections to the gating mechanisms of RNNs.
+
+### Computation
+- After discretization the model can be computed either as a linear recurrence or a global convolution.
+- Usually the model uses convolutional mode for efficient parallelizable training and is switched
+into recurrent mode for efficient autoregressive inference.
+
+### Linear Time Invariance (LTI)
+- An important property of equations 1-3 is that the model's dynamics are constant through time.
+- This means that $(\Delta, A, B, C)$ and consequently $(\bar{A}, \bar{B)$ are fixed for all time-steps.
+- This is called linear time invariance (LTI).
+- Informally LTI SSMs can be thought of as equivalent to any linear recurrence (2a) or convolution (3b).
+- LTI is used as an umbrella term for these classes of models.
+- So far all structured SSMs have been LTI because of efficiency constraints.
+- LTI models have fundamental limitations in modeling certain types of data.
+- The authors remove the LTI constraint and overcome the efficiency bottlenecks.
+
+### Structure and Dimensions
+- Structured SSMs get their name from the fact that computing them efficiently requires imposing structure
+on the $A$ matrix.
+- The most popular form of structure is diagonal, which the authors also use.
+- $B$ and $C$ are both essentially vectors (one of their dimensions is 1) so it's easy to see how 
+they can be represented by $N$ numbers (they are $N$ dimensional vectors). Since $A$ is diagonal,
+and there are $N$ entries on the diagonal, it can also be represented by $N$ numbers.
+- In the case of diagonal structure, the $A\in\mathbb{R}^{N\times N}$, $B\in\mathbb{R}^{N\times 1}$, 
+$C\in\mathbb{R}^{1\times N}$, matrices can all be represented by $N$ numbers.
+- To operate over an input sequence $x$ of batch size $B$ and length $L$ with $D$ channels, the SSM is
+applied independently to each channel.
+- In this case, the total hidden state has dimension $DN$ per input, and computing over the sequence length
+requires $O(BLDN)$ time and memory; this is the root of the efficiency bottleneck.
+
+### General State Space Models
+- The term "state space model" has a very broad meaning, it simply represents the notion of any recurrent
+process with a latent state.
+- It has been used to refer to Markov decision processes (MDP), dynamic causal modelling (DCM) 
+hidden Markov models (HMM) and linear dynamical systems (LDS), and recurrent models at large.
+- The authors use the term SSM to refer exclusively to the class of structured SSMs or S4 models.
+
+### SSM Architectures
+- Linear attention is an approximation of self-attention involving a recurrence which can be viewed as a
+degenerate linear SSM.
+- H3 generalized this recurrence to use S4; it can be viewed as an architecture with an SSM sandwhiched 
+by two gated connections. H3 also inserts a standard local convolution, which they frame as a shift-SSM,
+before the main SSM layer.
+- Hyena uses the same architecure as H3 but replaces the S4 layer with an MLP-parameterized global
+convolution.
+- RetNet adds an additional gate to the architecture and uses a simpler SSM, allowing an alternative
+parallelizable computation path, using a variant of multi-head attention (MHA) instead of convolutions.
+- RWKV is an RNN designed for language modelling based on another linear attention approximation.
+Its main "WKV" mechanism involves LTI recurrences and can be viewed as the ratio of two SSMs.
