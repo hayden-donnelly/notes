@@ -89,7 +89,7 @@ $$
 ### Discretization
 - The first stage transforms the "continuous parameters" $(\Delta, A, B)$ to "discrete parameters" 
 $(\bar{A}, \bar{B})$ through fixed formulas.
-- These are $\bar{A} = f_{A}(\Delta, A) and \bar{A} = f_{B}(\exp(\Delta A) - I) \cdot \Delta B$.
+- These are $\bar{A} = f_{A}(\Delta, A)$ and $\bar{A} = f_{B}(\exp(\Delta A) - I) \cdot \Delta B$.
 - The pair $(f_{A}, f_{B})$ is called a discretization rule.
 - Various rules can be used such as the zero-order hold (ZOH) defined in equation 4.
 
