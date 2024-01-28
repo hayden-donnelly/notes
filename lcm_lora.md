@@ -45,7 +45,7 @@ solution of such ODEs in latent space.
 - Parameter Efficient Fine-Tuning (PEFT) enables model finetuning while limiting the number of parameters
 required during training.
 - This reduces computational load and storage demands.
-- Low-Rank Adaptaion (LoRA) is one technique under the PEFT umbrella.
+- Low-Rank Adaptation (LoRA) is one technique under the PEFT umbrella.
 - LoRA involves training a minimal set of parameters via the usage of low rank matrices which succintly
 represent the required weight adjustments.
 - In practice this means that only the low rank matrices are trained and most of the pre-trained weights
@@ -54,7 +54,7 @@ are left unchanged.
 ## LCM-LoRA
 - Latency consistency distillation can be considered a fine-tuning process for LDMs since the distillation
 process is carried out on top of the pretrained LDM.
-- This allows for the usage of parameter efficient fine-tuing methods such as LoRA during the distillation
+- This allows for the usage of parameter efficient fine-tuning methods such as LoRA during the distillation
 process.
 - By incorporating LoRA into the distillation process, the quantity of trainable parameters is significantly
 reduced, thereby also reducing the memory requirements of training and enabling the distillation of larger
@@ -62,8 +62,8 @@ models.
 - LCM-LoRA parameters can be combined with other LoRA parameters which have been fine-tuned on datasets of 
 particular styles in order accelerate sampling in those styles without additional training.
 - Denoting the LCM-LoRA fine-tuned parameters as $\tau_{\text{LCM}}$ (the "acceleration vector"), and 
-the LoRA parameters fine-tuned on a customized dataset as $\tau^{\prime}$ (the "style vector"), and LCM 
-wich generates customized images can be obtained as:
+the LoRA parameters fine-tuned on a customized dataset as $\tau^{\prime}$ (the "style vector"), an LCM 
+which generates customized images can be obtained as:
 $`\theta^{\prime}_{\text{LCM}} = \theta_{\text{pre}} + \tau^{\prime}_{\text{LCM}}`$.
 - $`\tau^{\prime}_{\text{LCM}} = \lambda_1\tau^{\prime} + \lambda_2\tau_{\text{LCM}}`$ is a linear
 combination of the acceleration vector $`\tau_{\text{LCM}}`$ and style vector $`\tau^{\prime}`$.
