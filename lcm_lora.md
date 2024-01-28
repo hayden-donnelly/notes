@@ -64,13 +64,7 @@ particular styles in order accelerate sampling in those styles without additiona
 - Denoting the LCM-LoRA fine-tuned parameters as $\tau_{\text{LCM}}$ (the "acceleration vector"), and 
 the LoRA parameters fine-tuned on a customized dataset as $\tau^{\prime}$ (the "style vector"), and LCM 
 wich generates customized images can be obtained as:
-```math
-$$
-\being{align}
-\theta^{\prime}_{\text{LCM}} &= = \theta_{\text{pre}} + \tau^{\prime}_{\text{LCM}} \notag
-\end{align}
-$$
-```
+$`\theta^{\prime}_{\text{LCM}} = \theta_{\text{pre}} + \tau^{\prime}_{\text{LCM}}`$.
 - $`\tau^{\prime}_{\text{LCM}} = \lambda_1\tau^{\prime} + \lambda_2\tau_{\text{LCM}}`$ is the linear
 combination of the acceleration vector $`\tau_{\text{LCM}}`$ and style vector $`\tau^{\prime}`$.
 - $`\lambda_1`$ and $`lambda_2`$ are hyperparameters.
