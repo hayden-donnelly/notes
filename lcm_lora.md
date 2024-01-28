@@ -26,15 +26,15 @@ numerical ODE-Solvers.
 - Latent Consistency Finetuning (LCF) has been developed as a method to fine-tune pretrained LCMs without
 starting from the teacher diffusion model.
 - This requirement for additional training presents a barrier to fast deployment of downstream LCMs.
-- To solve this, the authors present LCM-LoRA, a universal training-free acceleration module that can be
-directly plugged into various Stable-Diffusion (SD) fine-tuned models or SD LoRAs for faset inference with
+- To solve this, the authors present LCM-LoRA, *a universal training-free acceleration module* that can be
+plugged directly into various Stable-Diffusion (SD) fine-tuned models or SD LoRAs for fast inference with
 minimal steps.
 
 ## Related Work
 ### Consistency Models
 - Consistency models are a novel class of generative models that enhance sampling efficiency without
 sacrificing the output quality.
-- These models emply a consistency mapping technique that maps points along the ODE trajectory to their
+- These models employ a consistency mapping technique that maps points along the ODE trajectory to their
 origins.
 - This enables one-step generation.
 - LCMs have been developed within the text-to-image domain.
@@ -56,8 +56,8 @@ are left unchanged.
 process is carried out on top of the pretrained LDM.
 - This allows for the usage of parameter efficient fine-tuing methods such as LoRA during the distillation
 process.
-- By incorporating LoRA into the distillation process, the quanity of trainable parameters is significantly
-reduced, effectively reducing the memory requirements of training and enabling the distillation of larger
+- By incorporating LoRA into the distillation process, the quantity of trainable parameters is significantly
+reduced, thereby also reducing the memory requirements of training and enabling the distillation of larger
 models.
 - LCM-LoRA parameters can be combined with other LoRA parameters which have been fine-tuned on datasets of 
 particular styles in order accelerate sampling in those styles without additional training.
